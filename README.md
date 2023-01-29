@@ -1,6 +1,6 @@
 # Workshop
 
-Welcome to the Workshop!
+Welcome to the Cypress Heroes app for Angular Global Summit 2023!
 
 ## Getting Started
 
