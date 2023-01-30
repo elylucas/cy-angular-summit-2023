@@ -1,0 +1,100 @@
+[
+  {
+    "id": "310186",
+    "name": "first code fragment",
+    "type": "CodeFragment",
+    "content": "describe('home page', () => {\n  it('should load the page', () => {\n    cy.visit('/')\n  })\n})\n"
+  },
+  {
+    "id": "380582",
+    "name": "like hero when not logged in",
+    "type": "CodeFragment",
+    "content": "  it('clicking on like should alert the user they need to login', () => {\n    cy.get('[data-cy=hero-card]').first().find('button[data-cy=like]').click();\n    cy.contains('You must log in to like.');\n    cy.get('button').contains('Ok').click();\n    cy.contains('You must log in to like.').should('not.exist');\n  });"
+  },
+  {
+    "id": "562097",
+    "name": "when logged in block and 1st test",
+    "type": "CodeFragment",
+    "content": "describe('when logged in', () => {\n    it('user should be able to log in', () => {\n      cy.get('button').contains('Login').click();\n      cy.get('input[type=\"email\"]').type('test@test.com');\n      cy.get('input[type=\"password\"]').type('test123');\n      cy.get('button').contains('Sign in').click();\n      cy.contains('button', 'Logout', { log: false }).should('be.visible');\n    });\n  });"
+  },
+  {
+    "id": "508173",
+    "name": "click like should increase test",
+    "type": "CodeFragment",
+    "content": "it('clicking like on a hero should increase their fan count', function () {\n      //get current fan count of first hero\n      cy.get('[data-cy=hero-card]')\n        .first()\n        .as('firstHero')\n        .find('[data-cy=fans]')\n        .as('fanSpan')\n        .then((el) => {\n          cy.wrap(el.text()).as('fanCount');\n        });\n      //click like button\n      cy.get('@firstHero').find('[data-cy=like]').click();\n      //assert count increased\n      cy.get('@fanCount').then((fanCount) => {\n        cy.get('@fanSpan').should('have.text', Number(fanCount) + 1);\n      });\n    });"
+  },
+  {
+    "id": "316501",
+    "name": "user should be able to hire test",
+    "type": "CodeFragment",
+    "content": "it('user should be able to hire a hero', function () {\n      //get current saves count of first hero\n      cy.get('[data-cy=hero-card]')\n        .first()\n        .as('firstHero')\n        .find('[data-cy=saves]')\n        .as('saveSpan')\n        .then((el) => {\n          cy.wrap(el.text()).as('saveCount');\n        });\n      //click hire button\n      cy.get('@firstHero').find('[data-cy=money]').click();\n      //click yes in modal\n      cy.get('button').contains('Yes').click();\n      //assert count increased\n      cy.get('@saveCount').then((saveCount) => {\n        cy.get('@saveSpan').should('have.text', Number(saveCount) + 1);\n      });\n    });"
+  },
+  {
+    "id": "291184",
+    "name": "Button Spec shell",
+    "type": "CreateFile",
+    "path": "client/src/app/components/button/button.component.cy.ts",
+    "withContent": "describe('ButtonComponent', () => {\n\n  it('should mount', () => {\n    \n  })\n})"
+  },
+  {
+    "id": "451025",
+    "name": "ButtonWrapper",
+    "type": "CodeFragment",
+    "content": "@Component({\n      template: '<app-button>Click me</app-button>',\n    })\n    class ButtonWrapper {}"
+  },
+  {
+    "id": "437330",
+    "name": "onClick event test",
+    "type": "CodeFragment",
+    "content": "it('should respond to onClick event', () => {\n    cy.mount<ButtonComponent>('<app-button>Click me</app-button>', {\n      declarations: [ButtonComponent],\n    });\n  });"
+  },
+  {
+    "id": "532701",
+    "name": "create login form spec",
+    "type": "CreateFile",
+    "path": "client/src/app/components/login-form/login-form.component.cy.ts",
+    "withContent": "import { LoginFormComponent } from './login-form.component';\n\ndescribe('LoginForm', () => {\n  it('should mount', () => {\n    cy.mount('<app-login-form></app-login-form>', {\n      declarations: [LoginFormComponent],\n    });\n  });\n});\n"
+  },
+  {
+    "id": "299780",
+    "name": "Login declarations and imports",
+    "type": "CodeFragment",
+    "content": "cy.mount('<app-login-form></app-login-form>', {\n      declarations: [\n        LoginFormComponent,\n        InputFieldComponent,\n        ButtonComponent,\n        TextInputComponent,\n      ],\n      imports: [HttpClientModule, ReactiveFormsModule],\n    });"
+  },
+  {
+    "id": "422227",
+    "name": "Custom Mount Command",
+    "type": "CodeFragment",
+    "content": "type MountParams = Parameters<typeof mount>;\n\nCypress.Commands.add(\n  'mount',\n  (component: MountParams[0], config: MountParams[1] = {}) => {\n    const declarations = [\n      ...(config.declarations || []),\n      LoginFormComponent,\n      InputFieldComponent,\n      ButtonComponent,\n      TextInputComponent,\n      ValidationErrorsComponent,\n    ];\n    const imports = [\n      ...(config.imports || []),\n      HttpClientModule,\n      ReactiveFormsModule,\n    ];\n    return mount(component, {\n      ...config,\n      declarations,\n      imports,\n    });\n  }\n);"
+  },
+  {
+    "id": "363389",
+    "name": "Validation tests",
+    "type": "CodeFragment",
+    "content": "it('should show validation messages when inputs are blank', () => {\n    cy.mount('<app-login-form></app-login-form>');\n    cy.get('button').contains('Sign in').click();\n\n    cy.contains('Email is required');\n    cy.contains('Password is required');\n  });\n\n  it('should show validation messages when email value is invalid', () => {\n    cy.mount('<app-login-form></app-login-form>');\n    cy.get('input[type=email]').type('bademail');\n    cy.get('button').contains('Sign in').click();\n    cy.contains('Email is not valid');\n  });"
+  },
+  {
+    "id": "352515",
+    "name": "Valid Cred Test",
+    "type": "CodeFragment",
+    "content": "it('should login when credentials are valid', () => {\n    cy.mount(\n      '<app-login-form (onLogin)=\"onLogin.emit($event)\"></app-login-form>',\n      {\n        componentProperties: {\n          onLogin: createOutputSpy('onLoginSpy'),\n        },\n      }\n    );\n\n    cy.get('input[type=email]').type('good@email.com');\n    cy.get('input[type=password]').type('goodpass');\n\n    cy.get('button').contains('Sign in').click();\n\n    cy.get('@onLoginSpy').should('have.been.called');\n  });"
+  },
+  {
+    "id": "534267",
+    "name": "cy.intercept 200",
+    "type": "CodeFragment",
+    "content": "cy.intercept('POST', '/auth', {\n      statusCode: 200,\n      body: { name: 'Test User', email: 'good@email.com' },\n    });"
+  },
+  {
+    "id": "327943",
+    "name": "Invalid Cred Test",
+    "type": "CodeFragment",
+    "content": "  it('should show bad login message when credentials are invalid', () => {\n    cy.intercept('POST', '/auth', {\n      statusCode: 401,\n    });\n\n    cy.mount<LoginFormComponent>('<app-login-form></app-login-form>', {\n      componentProperties: {\n        onLogin: createOutputSpy('onLoginSpy'),\n      },\n    });\n    cy.get('button').contains('Sign in').click();\n\n    cy.get('input[type=email]').type('bad@email.com');\n    cy.get('input[type=password]').type('badpass');\n    cy.get('button').contains('Sign in').click();\n\n    cy.contains('Invalid username or password');\n    cy.get('@onLoginSpy').should('not.have.been.called');\n  });"
+  },
+  {
+    "id": "421797",
+    "name": "Provide AuthSerivce Mock",
+    "type": "CodeFragment",
+    "content": "providers: [\n        {\n          provide: AuthService,\n          useValue: {\n            login: () => {\n              return throwError(() => {\n                throw Error('Invalid username or password');\n              });\n            },\n          },\n        },\n      ],"
+  }
+]
