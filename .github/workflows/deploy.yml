@@ -4,8 +4,10 @@ on:
   push:
     branches:
       - guide
-  permissions:
-    contents: write
+      
+permissions:
+  contents: write
+
 jobs:
   deploy:
     name: Deploy to GitHub Pages
