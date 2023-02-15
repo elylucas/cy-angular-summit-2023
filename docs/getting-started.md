@@ -249,6 +249,24 @@ it('should respond to onClick event', () => {
 });
 ```
 
+update test to use properties and emit event:
+
+```ts
+it('should respond to onClick event', () => {
+  cy.mount<ButtonComponent>(
+    '<app-button (onClick)="this.onClick">Click me</app-button>',
+    {
+      declarations: [ButtonComponent],
+      componentProperties: {
+        onClick: createOutputSpy('onClickSpy'),
+      },
+    }
+  );
+  cy.get('button').click();
+  cy.get('@onClickSpy').should('have.been.called');
+});
+```
+
 ### LoginForm Spec
 
 Go over when to use ct vs e2e. Edge cases of LoginForm are a good candidate to
@@ -405,21 +423,21 @@ it('should show bad login message when credentials are invalid', () => {
 Show how to use IOC and add provider:
 
 ```ts
-    cy.mount<LoginFormComponent>('<app-login-form></app-login-form>', {
-      componentProperties: {
-        onLogin: createOutputSpy('onLoginSpy'),
-      },
-      providers: [
-        {
-          provide: AuthService,
-          useValue: {
-            login: () => {
-              return throwError(() => {
-                throw Error('Invalid username or password');
-              });
-            },
-          },
+cy.mount<LoginFormComponent>('<app-login-form></app-login-form>', {
+  componentProperties: {
+    onLogin: createOutputSpy('onLoginSpy'),
+  },
+  providers: [
+    {
+      provide: AuthService,
+      useValue: {
+        login: () => {
+          return throwError(() => {
+            throw Error('Invalid username or password');
+          });
         },
-      ],
-    });
+      },
+    },
+  ],
+});
 ```
