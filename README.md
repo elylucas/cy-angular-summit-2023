@@ -5,7 +5,7 @@ Welcome to the Cypress Heroes app for Angular Global Summit 2023!
 ## Getting Started
 
 To get started, open the guide at
-[https://elylucas.github.io/workshop-starter/](https://elylucas.github.io/workshop-starter/)
+[https://elylucas.github.io/cy-angular-summit-2023/](https://elylucas.github.io/cy-angular-summit-2023)
 and continue in the Getting Started section.
 
 If you cannot access the above URL, you can view the guide locally by running
